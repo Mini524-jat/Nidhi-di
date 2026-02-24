@@ -1,0 +1,352 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+/* ===== DESKTOP LAYOUT ===== */
+
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(rgb(85,183,225), rgb(4,82,146));
+  font-family:Arial, Helvetica, sans-serif;
+  overflow:hidden;
+}
+
+/* instruction text */
+.instruction{
+  position:fixed;
+  top:18px;
+  left:18px;
+  color:white;
+  font-weight:700;
+  z-index:9999;
+}
+
+/* book container */
+.book{
+  width:380px;
+  height:520px;
+  position:relative;
+  perspective:2000px;
+}
+
+/* page */
+.page{
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  transform-origin:left;
+  transform-style:preserve-3d;
+  transition:transform 1s ease;
+  cursor:pointer;
+}
+
+/* flip */
+.page.flipped{
+  transform:rotateY(-180deg);
+}
+
+/* page sides */
+.front,
+.back{
+  position:absolute;
+  width:100%;
+  height:100%;
+  padding:30px;
+  border-radius:14px;
+  backface-visibility:hidden;
+  box-shadow:0 12px 30px rgba(0,0,0,0.25);
+  background:white;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:center;
+  line-height:1.6;
+  overflow-y:auto;
+}
+
+/* backside */
+.back{
+  transform:rotateY(180deg);
+}
+
+/* text spacing */
+.front p,
+.back p{
+  margin-bottom:14px;
+  font-size:16px;
+}
+
+.front h1,
+.front h2{
+  margin-bottom:15px;
+}
+
+/* cover */
+.cover{
+  align-items:center;
+}
+
+.cover h1{
+  font-size:58px;
+  line-height:1;
+  margin-bottom:12px;
+  font-family:"Times New Roman", serif;
+}
+
+.cover p{
+  font-size:28px;
+  font-weight:700;
+}
+
+/* scrollbar */
+.front::-webkit-scrollbar,
+.back::-webkit-scrollbar{
+  width:6px;
+}
+.front::-webkit-scrollbar-thumb,
+.back::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.2);
+  border-radius:10px;
+}
+
+/* button */
+#botao1{
+  padding:10px 15px;
+  border:none;
+  border-radius:10px;
+  background:rgb(1,77,118);
+  color:white;
+  font-weight:800;
+  cursor:pointer;
+}
+
+#botao1:hover{
+  opacity:0.9;
+}
+
+/* media */
+video{
+  width:100%;
+  border-radius:12px;
+  object-fit:cover;
+}
+
+.front img,
+.back img{
+  max-width:100%;
+  border-radius:10px;
+}
+
+/* ===== MOBILE PERFECT FIT ===== */
+
+@media (max-width:600px){
+
+  body{
+    padding:0;
+    overflow:hidden;
+    justify-content:center;
+    align-items:center;
+  }
+
+  .instruction{
+    top:10px;
+    left:12px;
+    font-size:14px;
+  }
+
+  /* perfect screen fit */
+  .book{
+    width:min(88vw,420px);
+    height:calc(min(88vw,420px) * 1.35);
+    max-height:78vh;
+  }
+
+  /* pages fill container */
+  .page,
+  .front,
+  .back{
+    width:100%;
+    height:100%;
+  }
+
+  .front,
+  .back{
+    padding:16px;
+    font-size:14px;
+    border-radius:12px;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .cover h1{
+    font-size:34px;
+  }
+
+  .cover p{
+    font-size:18px;
+  }
+
+  video{
+    max-height:220px;
+  }
+
+  #botao1{
+    padding:10px 12px;
+    font-size:14px;
+  }
+}
+
+/* ===== FORCE MOBILE FULL FIT (override) ===== */
+@media (max-width: 600px) {
+  .book {
+    width: 90vw !important;
+    height: 86vh !important;     /* removes blue gap */
+    max-height: 86vh !important;
+  }
+
+  .page {
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+
+  .front,
+  .back {
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    position: absolute !important;
+    padding: 18px !important;
+  }
+}
+
+/* ===== MOBILE: remove bottom gap (override) ===== */
+@media (max-width: 600px) {
+
+  body{
+    height: 100svh;          /* better than vh on mobile */
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .book{
+    width: 92vw !important;
+    height: 82svh !important;     /* no extra space */
+    perspective: 1200px !important; /* less depth = less shrink */
+  }
+
+  .page{
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+
+  .front, .back{
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    position: absolute !important;
+    padding: 18px !important;
+  }
+
+  /* IMPORTANT: stop the "shrinking" look caused by large shadows on small screens */
+  .front, .back{
+    box-shadow: 0 10px 18px rgba(0,0,0,0.18) !important;
+  }
+}
+
+/* ===== PHONE HORIZONTAL (LANDSCAPE) OPEN-BOOK VIEW ===== */
+@media (max-width: 950px) and (orientation: landscape) {
+
+  body{
+    height: 100vh;
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Make book wide like 2-page spread */
+  .book{
+    width: min(96vw, 920px);
+    height: min(86vh, 520px);
+    position: relative;
+  }
+
+  /* Left page (static) */
+  .book::before{
+    content:"";
+    position:absolute;
+    inset: 0 auto 0 0;   /* top right bottom left */
+    width: 50%;
+    height: 100%;
+    background: white;
+    border-radius: 14px 0 0 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  }
+
+  /* Spine shadow in middle */
+  .book::after{
+    content:"";
+    position:absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18px;
+    height: 100%;
+    background: linear-gradient(to right,
+      rgba(0,0,0,0.10),
+      rgba(255,255,255,0.7),
+      rgba(0,0,0,0.10)
+    );
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  /* All flipping pages move to RIGHT side */
+  .page{
+    width: 50% !important;
+    left: 50% !important;
+    top: 0 !important;
+    height: 100% !important;
+  }
+
+  /* Round corners only on right side */
+  .front,
+  .back{
+    border-radius: 0 14px 14px 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    position: absolute !important;
+  }
+
+  /* Fit text nicely */
+  .front, .back{
+    padding: 16px !important;
+    font-size: 14px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+video{
+  width: 100%;
+  height: auto;      /* IMPORTANT */
+  max-height: 100%;
+  border-radius: 12px;
+  object-fit: contain;   /* keeps full video visible */
+}
